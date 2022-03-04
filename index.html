@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>UKG Lucky Draw</title>
+    <!-- site favicon -->
+    <link rel="icon" type="image/png" href="https://ukg.com.vn/wp-content/uploads/2021/01/logoukg-1.png" sizes="16x16">
+    <link rel="stylesheet" href="./css/flaticon.css">
+    <!-- bootstrap css file link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jquery ui css file link -->
+    <link rel="stylesheet" href="./css/jquery-ui.min.css">
+    <!-- animate css file link -->
+    <link rel="stylesheet" href="./css/animate.css">
+    <!-- owl carousel css file link -->
+    <link rel="stylesheet" href="./css/owl.carousel.min.css">
+    <!-- responsive css file link -->
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="./css/jquery.slotmachine.css" rel="stylesheet">
+    <link href="./css/jquery.slotmachine.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+</head>
+
+<body>
+    <a class="setting" id="setting"><i class="bi bi-gear"></i></a>
+    <div class="container left-box">
+        <div class="row rank">Giải nhất:</div>
+        <div class="number" id="rank1"><br></div>
+        <div class="row rank"> Giải nhì:</div>
+        <div class="number" id="rank2"><br></div>
+        <div class="row rank">Giải ba:</div>
+        <div class="number" id="rank3"><br></div>
+        <div class="row rank">Giải khuyến khích:</div>
+        <div class="number" id="rank4"><br></div>
+
+    </div>
+
+    <div id="settingModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                          <label for="randomMin">Min:</label>
+                          <input type="text" class="form-control" id="randomMin">
+                        </div>
+                    </form>
+                    <form>
+                        <div class="form-group">
+                          <label for="randomMax">Max:</label>
+                          <input type="text" class="form-control" id="randomMax">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSaveSetting">Lưu</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có muốn xác nhận giải thưởng này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSave">Lưu</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column min-vh-100 align-items-center">
+        <h1 class="lucky-title">LUCKY DRAW</h1>
+        <h2 class="ukg-title">UKG GROUP</h2>
+        <div class="index_middle">
+            <div id="top_box">
+                <div class="setbg number_s_box" id="my-numbers1">
+                    <div id="machine1" class="machin_s">
+                    </div>
+                </div>
+                <div class="setbg number_s_box" id="my-numbers2">
+                    <div id="machine2" class="machin_s">
+                    </div>
+                </div>
+                <div class="setbg number_s_box" id="my-numbers3">
+                    <div id="machine3" class="machin_s">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="id_GiaiQuay" style="margin-bottom: 0px; margin-left: 10px; float: left;" class="dropdown">
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="btnAwardChooser"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Chọn giải <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnAwardChooser">
+                <li><a class="dropdown-item" href="#" onclick='changeAward(1)'>Giải nhất</a></li>
+                <li><a class="dropdown-item" href="#" onclick='changeAward(2)'>Giải nhì</a></li>
+                <li><a class="dropdown-item" href="#" onclick='changeAward(3)'>Giải ba</a></li>
+                <li><a class="dropdown-item" href="#" onclick='changeAward(4)'>Giải khuyến khích</a></li>
+            </ul>
+        </div>
+
+        <button id='btnRoll' class='btn btn-primary' type='button' onclick="startSpin()">Quay số</button>
+        <div class="signature">
+            Designed by UKG Tech
+        </div>
+    </div>
+
+    <script>
+        var currentAwardType = 0;
+        var currentNumber = null;
+        var minRandom = 0;
+        var maxRandom = 999;
+
+        var pricingMap = {
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+        }
+
+
+        var awardMap = {
+            1: 'Giải nhất',
+            2: 'Giải nhì',
+            3: 'Giải ba',
+            4: 'Giải khuyến khích'
+        }
+
+        window.onload = function () {
+            ChangeBox("150", "3");
+            appendHTMLfortag().then(function () {
+                $("#load_screen").css("display", "none");
+            });
+            $('.modal')
+                .on('click', '[data-dismiss="modal"]', function () {
+                    $('.modal').modal('hide');
+                });
+
+            $("#btnSave").click(() => {
+                if (currentAwardType && currentNumber) {
+                    pricingMap[currentAwardType].push(currentNumber)
+                }
+                console.log(pricingMap)
+                // drawing pricing map
+                const rank1 = pricingMap[1].map(n => '<span class="badge bg-danger">' + n + '</span>&nbsp')
+                $('#rank1').html(rank1.length ? rank1 : '<br>');
+                const rank2 = pricingMap[2].map(n => '<span class="badge bg-danger">' + n + '</span>&nbsp')
+                $('#rank2').html(rank2.length ? rank2 : '<br>');
+                const rank3 = pricingMap[3].map(n => '<span class="badge bg-danger">' + n + '</span>&nbsp')
+                $('#rank3').html(rank3.length ? rank3 : '<br>');
+                const rank4 = pricingMap[4].map(n => '<span class="badge bg-danger">' + n + '</span>&nbsp')
+                $('#rank4').html(rank4.length ? rank4 : '<br>');
+
+                $('#modal').modal('hide');
+            })
+
+            $('#setting').click(() => {
+                $('#randomMin').val(minRandom);
+                $('#randomMax').val(maxRandom);
+                $('#settingModal').modal('show');
+            })
+
+            $("#btnSaveSetting").click(() => {
+                minRandom = parseInt($('#randomMin').val());
+                maxRandom = parseInt($('#randomMax').val());
+                console.log('Save setting: ' + minRandom + " " + maxRandom)
+                $('#settingModal').modal('hide');
+            })
+        }
+
+        function changeAward(type) {
+            currentAwardType = type;
+            $('#btnAwardChooser').text(awardMap[type]);
+            $('#btnAwardChooser').css('background', '#09954f')
+        }
+
+        function ChangeBox(width, pos) {
+            // $("#top_box").css("width", "fit-content");
+            $("#top_box > div:nth-child(1)").css("margin-left", 0 + "px");
+            for (var i = 1; i <= parseInt(pos); i++) {
+                $("#top_box > div:nth-child(" + i + ")").css("display", "block");
+            }
+            tongSo = pos;
+            $(".machin_s").css("width", width + "px");
+        }
+
+        //-----------------------------------------------------------------CÁC FUNCTION XỬ LÝ AUDIO
+        function playAudio(x, y) {
+            // if (y) {
+            //     window.myInterval = setInterval(function () {
+            //         document.getElementById(x).pause();
+            //         document.getElementById(x).currentTime = 240;
+            //         document.getElementById(x).play();
+            //     }, 50);
+            // } else {
+            //     document.getElementById(x).currentTime = 0;
+            //     document.getElementById(x).play();
+            // }
+        }
+
+        function pauseAudio(x) {
+            // document.getElementById(x).pause();
+        }
+
+        function muteAudio(x) {
+            // var vid = document.getElementById(x);
+            // vid.muted = true;
+        }
+
+        function unMuteAudio(x) {
+            // var vid = document.getElementById(x);
+            // vid.muted = false;
+        }
+
+        function startSpin() {
+            //Reset các số
+            appendHTMLfortag();
+            currentNumber = null;
+            startMachine(getNextNumberString());
+            disableBtns();
+        }
+
+
+        function getNextNumberString(){
+            const randomInt = getRandomInt(minRandom, maxRandom);
+            console.log("randomInt : " + randomInt);
+            const random = padLeadingZeros(randomInt, 3);
+            const existed = [];
+            Object.keys(pricingMap).forEach(key => {
+                existed.push(...pricingMap[key]);
+            });
+            console.log("existed: " + existed);
+            if(existed.join(',').includes(random)){
+                console.log("duplicated")
+                return getNextNumberString();
+            }else{
+                return random;
+            }
+        }
+      
+        //------------------------------------------------------------------XỬ LÝ BOX QUAY SỐ
+        function appendHTMLfortag() {
+            return new Promise(function (resolve, reject) {
+                for (var i = 1; i <= 3; i++) {
+                    var el = $("#machine" + i);
+                    el.html("");
+                    for (var a = 0; a <= 9; a++) {
+                        $("#machine" + (i)).append("<div class='number-inside' style='font-size: 130px'>" + a + "</div>");
+                    }
+                }
+                resolve("true");
+            })
+        }
+        var el1 = document.getElementById('machine1');
+        var el2 = document.getElementById('machine2');
+        var el3 = document.getElementById('machine3');
+
+        //-------------------------------------------------CÀI ĐẶT THỜI GIAN QUAY CHO CÁC SỐ
+        function startMachine(ketQua) {
+            console.log("duy: " + ketQua)
+            let duration = 800;
+            let spinTimes = 9999;
+
+            const machine1 = new SlotMachine(el1, {
+                active: 0,
+                spin: 1,
+                delay: duration,
+                randomize: function () {
+                    return ketQua.toLowerCase().substring(0, 1);
+                }
+            });
+            const machine2 = new SlotMachine(el2, {
+                active: 0,
+                spin: 1,
+                delay: duration,
+                randomize: function () {
+                    return ketQua.toLowerCase().substring(1, 2);
+                }
+            });
+            const machine3 = new SlotMachine(el3, {
+                active: 0,
+                spin: 1,
+                delay: duration,
+                randomize: function () {
+                    return ketQua.toLowerCase().substring(2, 3);
+                }
+            }); machine1.LuuKetQua
+            machine1.shuffle(spinTimes);
+            machine2.shuffle(spinTimes);
+            machine3.shuffle(spinTimes);
+            playAudio("mp3Spin");
+            spinTimes = 3;
+            let daQuay = 0;
+            canQuay = true
+            if (tongSo == daQuay) {
+                thongBaoChucMung();
+            }
+            if (canQuay) {
+                pauseAudio("mp3QuayNgan");
+                playAudio("mp3QuayNgan");
+                daQuay++;
+                machine1.shuffle(spinTimes, function () {
+                    if (tongSo == daQuay) {
+                        thongBaoChucMung();
+                    }
+                    if (canQuay) {
+                        pauseAudio("mp3QuayNgan");
+                        playAudio("mp3QuayNgan");
+                        daQuay++;
+                        machine2.shuffle(spinTimes, function () {
+                            if (tongSo == daQuay) {
+                                thongBaoChucMung();
+                            }
+                            if (canQuay) {
+                                pauseAudio("mp3QuayNgan");
+                                playAudio("mp3QuayNgan");
+                                daQuay++;
+                                machine3.shuffle(spinTimes, function () {
+                                    if (tongSo == daQuay) {
+                                        thongBaoChucMung();
+                                    }
+                                    if (canQuay) {
+                                        pauseAudio("mp3QuayNgan");
+                                        playAudio("mp3QuayNgan");
+                                        daQuay++;
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            function thongBaoChucMung() {
+                canQuay = false;
+                // open dialog
+                console.log('open modal')
+                currentNumber = ketQua;
+                if (currentAwardType) {
+                    $('#modal').modal('show');
+                }
+            }
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function padLeadingZeros(num, size) {
+            var s = num + "";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+
+        function SetColor() {
+            $('#btn_ChuongTrinh, #btn_lanquay, #button-quayLai, #button-XacNhan,.button-ss.circle-ss').css("background", "#" + colorMauNutBam);
+
+
+        }
+
+        function shuffle(array) {
+            let counter = array.length;
+            // While there are elements in the array
+            while (counter > 0) {
+                // Pick a random index
+                let index = Math.floor(Math.random() * counter);
+
+                // Decrease counter by 1
+                counter--;
+
+                // And swap the last element with it
+                let temp = array[counter];
+                array[counter] = array[index];
+                array[index] = temp;
+            }
+            return array;
+        }
+
+
+    </script>
+
+    <script type="text/javascript">
+        // Click "Congratulations!" to play animation
+        var particles = ['.blob', '.star'],
+            $congratsSection = $('#congrats'),
+            $title = $('#congrats>h1');
+
+        $(function () {
+            init({
+                numberOfStars: 30,
+                numberOfBlobs: 15
+            });
+
+            fancyPopIn();
+        });
+
+        //$congratsSection.click(fancyPopIn);
+
+        function fancyPopIn() {
+            reset();
+            animateText();
+
+            for (var i = 0, l = particles.length; i < l; i++) {
+                animateParticles(particles[i]);
+            }
+        }
+
+        function animateText() {
+            // TweenMax.from($title, 0.65, {
+            //     scale: 0.1,
+            //     opacity: 0,
+            //     rotation: 15,
+            //     ease: Back.easeOut.config(5),
+            // });
+        }
+
+        function animateParticles(selector) {
+            var xSeed = Math.floor(Math.random() * 380) + 350;
+            var ySeed = Math.floor(Math.random() * 170) + 120;
+
+            $.each($(selector), function (i) {
+                var min = 0.4,
+                    max = 1.5,
+                    highlightedNumber = Math.random() * (max - min) + min;
+
+                var $particle = $(this);
+                var speed = Math.floor(Math.random() * 5) + 1;
+                var rotation = Math.floor(Math.random() * 100) + 5;
+                var scale = highlightedNumber;
+                var x = Math.floor(Math.random() * (xSeed * 2) + 1) - xSeed;
+                var y = Math.floor(Math.random() * (ySeed * 2) + 1) - ySeed;
+
+                TweenMax.to($particle, speed, {
+                    x: x,
+                    y: y,
+                    ease: Power1.easeOut,
+                    opacity: 0,
+                    rotation: rotation,
+                    scale: scale,
+                    onStartParams: [$particle],
+                    onStart: function ($element) {
+                        $element.css('display', 'block');
+                    },
+                    onCompleteParams: [$particle],
+                    onComplete: function ($element) {
+                        $element.css('display', 'none');
+                    }
+                });
+            });
+        }
+
+        function reset() {
+            // for (var i = 0, l = particles.length; i < l; i++) {
+            //     $.each($(particles[i]), function () {
+            //         TweenMax.set($(this), { x: 0, y: 0, opacity: 1 });
+            //     });
+            // }
+
+            // TweenMax.set($title, { scale: 1, opacity: 1, rotation: 0 });
+        }
+
+        function init(properties) {
+            for (var i = 0; i < properties.numberOfStars; i++) {
+                $congratsSection.append('<div class="particle star ' + i + '"><span class="glyphicon glyphicon-star"></span></div>');
+            }
+
+            for (var i = 0; i < properties.numberOfBlobs; i++) {
+                $congratsSection.append('<div class="particle blob ' + i + '"></div>');
+            }
+        }
+
+        function reSetPr() {
+            $('#congrats').css("visibility", "hidden");
+            $('#btnquayso_container').css("display", "none");
+            $('#btns_lefts').css("visibility", "hidden");
+        }
+
+        function disableBtns() {
+            $('#btn_ChuongTrinh').css("cursor", "not-allowed")
+            $('#btn_ChuongTrinh').attr("disabled", "disabled");
+            $('#btn_lanquay').attr("disabled", "disabled");
+            $('#btn_lanquay').css("cursor", "not-allowed")
+        }
+
+        function enableBtns() {
+            $('#btn_ChuongTrinh').css("cursor", "pointer");
+            $('#btn_lanquay').css("cursor", "pointer");
+            $('#btn_ChuongTrinh').removeAttr("disabled");
+            $('#btn_lanquay').removeAttr("disabled");
+        }
+
+
+    </script>
+    <style>
+        /* #congrats {
+        position: ab top: calc(~"50% - 50px");
+        width: 100%;
+        line-height: 1;
+        text-align: center;
+        left: 0;
+        right: 0;
+    } */
+
+        #congrats>h1 {
+            margin-top: 10px;
+        }
+
+        #title {
+            transform-origin: 50% 50%;
+            font-size: 50px;
+            cursor: pointer;
+            z-index: 2;
+            position: absolute;
+            top: 0;
+            text-align: center;
+            width: 100%;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .ng-binding {
+            width: 25% !important;
+            text-align: center;
+            font-size: 35px;
+            padding: 20px 10px !important;
+        }
+
+        .particle {
+            height: 50px;
+            width: 50px;
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            z-index: 1;
+            font-size: 30px;
+        }
+
+        .number-inside {
+            text-shadow: 0px 0px #8e8e8e, 0px 0px #2d2d2d, 1px 0px #424242;
+        }
+
+        .star {
+            color: #ffcc00;
+        }
+
+        .blob {
+            background: #FFCC00;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .machin_s,
+        .setbg.number_s_box {
+            border-radius: 10px !important;
+        }
+    </style>
+
+    </div>
+    </div>
+    <style aria-hidden="true">
+        #loading_s::after {
+            content: '';
+            width: 25px;
+            height: 50px;
+            background: white;
+            position: absolute;
+            top: -40px;
+            animation: fa-spin 3000ms infinite linear;
+            z-index: 11000;
+        }
+
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #a72929;
+            border-bottom: 2px solid #a72929;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 55px;
+            top: 20px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        .loader2 {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #a72929;
+            border-bottom: 2px solid #a72929;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 55px;
+            top: 20px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <script type="text/javascript" src="./js/slotmachine.js"></script>
+    <script type="text/javascript" src="./js/jquery.slotmachine.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <!-- jquery migrate js file -->
+    <script src="./js/jquery-migrate.min.js"></script>
+    <!-- jquery ui js file link -->
+    <script src="./js/jquery-ui.min.js"></script>
+    <!-- bootstrap js file link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script>
+    <!-- lightcase js file link -->
+    <script src="./js/lightcase.js"></script>
+    <!-- jquery countdown js file link -->
+    <script src="./js/jquery.countdown.js"></script>
+    <!-- wow js file link -->
+    <script src="./js/wow.min.js"></script>
+
+
+
+
+
+
+</body>
+
+</html>
